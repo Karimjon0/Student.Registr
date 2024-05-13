@@ -10,6 +10,6 @@ namespace Student.Registr.Broker.Storeage
     {
         bool Delete(int id);
         StudenT[] GetAllStudent();
-        StudenT GetStudent(int id);
+        StudenT ReadStudent(int id);
     }
 }
