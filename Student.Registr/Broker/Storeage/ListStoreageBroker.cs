@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//----------------------------------------
+// Great Code Team (c) All rights reserved
+//----------------------------------------
 
+using Student.Registr.Models;
 namespace Student.Registr.Broker.Storeage
 {
-    internal class ListStoreageBroker
+    internal class ListStoreageBroker : IStoreageBroker
     {
+
     }
 }
