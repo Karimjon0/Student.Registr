@@ -8,8 +8,9 @@ namespace Student.Registr.Broker.Storeage
 {
     internal interface IStoreageBroker
     {
-        bool Delete(int id);
-        StudenT[] GetAllStudent();
-        StudenT ReadStudent(int id);
+        IStudent PrintNameEmail(int id);
+        List<StudenT> FindStudentName(char letter);
+        StudenT FindStudentByName(string firstName);
+        StudenT AddStudent(StudenT student);
     }
 }
