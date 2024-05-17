@@ -1,4 +1,6 @@
-﻿
+//----------------------------------------
+// Great Code Team (c) All rights reserved
+//---------------------------------------﻿
 
 namespace Student.Registr.Models
 {
