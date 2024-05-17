@@ -5,7 +5,7 @@
 using Student.Registr.Broker.Logging;
 using Student.Registr.Broker.Storeage;
 using Student.Registr.Models;
-using static System.Reflection.Metadata.BlobBuilder;
+using Student.Registr.Broker.Logging;
 
 namespace Student.Registr.Service
 {
@@ -13,8 +13,6 @@ namespace Student.Registr.Service
     {
         private readonly ILoggingBroker loggingBroker;
         private readonly IStoreageBroker storeageBroker;
-        private StudenT studentInfo;
-
         public StudentService()
         {
             this.loggingBroker = new LoggingBroker();
@@ -27,7 +25,6 @@ namespace Student.Registr.Service
                 ? InvalidCheckoutByLetter()
                 : ValidationCheckoutByLetter(letter);
         }
-
 
         public StudenT CheckoutByName(string firstName)
         {
@@ -43,21 +40,33 @@ namespace Student.Registr.Service
              : ValidationAndDisplayStudent(id);
         }
 
-        private IStudent ValidationAndDisplayStudent(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        private IStudent InvalidDisplayStudent()
-        {
-            throw new NotImplementedException();
-        }
-
         public StudenT InsertStudent(StudenT student)
         {
             return student is null
              ? InsertStudentInvalid()
              : ValidationAndInsertStudent(student);
+        }
+
+        private IStudent ValidationAndDisplayStudent(int id)
+        {
+            var studentInfo = this.storeageBroker.PrintNameAndEmail(id);
+            if (studentInfo.FirstName is not null)
+            {
+                this.loggingBroker.LogInformation($"FirstName: {studentInfo.FirstName}\n" +
+                    $"Email: {studentInfo.Email}");
+                return studentInfo;
+            }
+            else
+            {
+                this.loggingBroker.LogError("No information found.");
+                return new IStudent();
+            }
+        }
+
+        private IStudent InvalidDisplayStudent()
+        {
+            this.loggingBroker.LogError("Invalid Id.");
+            return new IStudent();
         }
 
         private StudenT ValidationAndInsertStudent(StudenT student)
@@ -88,7 +97,7 @@ namespace Student.Registr.Service
 
         private List<StudenT> ValidationCheckoutByLetter(char letter)
         {
-            List<StudenT> studenInfo = this.storeageBroker.FindStudentName(letter);
+            List<StudenT> studenInfo = this.storeageBroker.FindStudentByLetter(letter);
             if (studenInfo.Count is not 0)
             {
                 foreach (var student in studenInfo)
@@ -147,45 +156,9 @@ namespace Student.Registr.Service
 
                 return studentInfo;
             }
-
         }
 
-        private StudenT InsertBookIsInvalid()
-        {
-            this.loggingBroker.LogError("Student info is null.");
-            return new StudenT();
-        }
-        public StudenT ReadStudent(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StudenT Update(int id, StudenT student)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<StudenT> InsertRangeStudent(List<StudenT> studen)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Purchase(string model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<StudenT> SoldInformation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DisplayStudent(object id)
+        IStudent IStudentService.DisplayStudent(int id)
         {
             throw new NotImplementedException();
         }

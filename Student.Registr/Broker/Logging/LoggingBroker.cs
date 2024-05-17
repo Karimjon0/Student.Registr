@@ -2,9 +2,11 @@
 // Great Code Team (c) All rights reserved
 //----------------------------------------
 
+using Student.Registr.Broker.Logging;
+
 namespace Student.Registr.Broker.Logging
 {
-    internal class LoggingBroker: ILoggingBroker
+    internal class LoggingBroker : ILoggingBroker
     {
         public void LogInformation(string message)
         {
@@ -12,23 +14,10 @@ namespace Student.Registr.Broker.Logging
             Console.WriteLine(message);
             Console.ResetColor();
         }
-        public void LogError(string message)
+        public void LogError(string userMessage)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
-        }
-        public void LogError(Exception exception)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(exception);
-            Console.ResetColor();
-        }
-
-        public void LogInfo(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(message);
+            Console.WriteLine(userMessage);
             Console.ResetColor();
         }
     }
