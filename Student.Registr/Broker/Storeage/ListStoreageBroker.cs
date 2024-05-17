@@ -3,169 +3,114 @@
 //----------------------------------------
 
 using Student.Registr.Models;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Student.Registr.Broker.Storeage
 {
     internal class ListStoreageBroker : IStoreageBroker
     {
-        private List<StudenT> StudentsInfo { get; set; } = new List<StudenT>();
-
-        List<StudenT> persons = new List<StudenT>()
+        private List<StudenT> students = new List<StudenT>();
+        public ListStoreageBroker()
         {
-
-            new StudenT()
+            this.students.Add(new StudenT()
             {
-
                 Id = 1,
                 FirstName = "Karimjon",
                 LastName = "Abidjonov",
                 Age = 14,
-                Email = "karimjon@gmail.com"
-            },
-            new StudenT()
+                Email = "Karimjon0@gmail.com"
+            });
+            this.students.Add(new StudenT()
             {
                 Id = 2,
-                FirstName = "Ozodbek",
-                LastName = "Jovliyev",
+                FirstName = "Inomjon",
+                LastName = "Safarov",
                 Age = 14,
-                Email = "ozodceek12@gmail.com"
-            },
-        };
-
-        List<StudenT> people = new List<StudenT>()
-        {
-            new StudenT()
+                Email = "Inomjon12@gmail.com"
+            });
+            this.students.Add(new StudenT()
+            {
+                Id = 3,
+                FirstName = "Saidjon",
+                LastName = "Jalolov",
+                Age = 14,
+                Email = "Saidjon32@gmail.com"
+            });
+            this.students.Add(new StudenT()
             {
                 Id = 4,
-                FirstName = "Doston",
-                LastName = "Ergashev",
-                Age = 32,
-                Email = "ergashev@gmail.com"
-            },
-            new StudenT()
+                FirstName = "Ozodbek",
+                LastName = "Jovliyev",
+                Age = 12,
+                Email = "Jovliyev23@gmail.com"
+            });
+            this.students.Add(new StudenT()
             {
                 Id = 5,
-                FirstName = "Ibirohim",
+                FirstName = "Ibirihim",
                 LastName = "Amirov",
                 Age = 13,
-                Email = "amirovibirohm@gmail.com"
-            },
-            new StudenT()
-            {
-                Id = 6,
-                FirstName = "Akbarjon",
-                LastName = "Eshpulatov",
-                Age = 14,
-                Email = "akbarjon2010@gmail.com"
-            }
-        };
-        public StudenT ReadStudent(int id)
-        {
-            for (int itaration = 0; itaration <= StudentsInfo.Length; itaration++)
-            {
-                StudenT studentInfoLine = StudentsInfo[itaration];
-                if (studentInfoLine.Id == id)
-                {
-                    return studentInfoLine;
-                }
-            }
-            return new StudenT();
+                Email = "Amirov12@gmail.com"
+            });
         }
-        public StudenT[] GetAllStudent() => StudentsInfo;
 
         public StudenT AddStudent(StudenT student)
         {
-            for (int itaration = 0; itaration < StudentsInfo.Length; itaration++)
+            foreach (StudenT studentItem in this.students)
             {
-                if (StudentsInfo[itaration] is null)
+                if (studentItem.Id == student.Id
+                    && studentItem.Email == student.Email)
                 {
-                    var bookInfo = new StudenT()
-                    {
-                        Id = student.Id,
-                        FirstName = student.FirstName,
-                        LastName = student.LastName,
-                        Age = student.Age,
-                        Email = student.Email,
-                    };
-                    StudentsInfo[itaration] = bookInfo;
-                    return student;
+                    return new StudenT();
+                }
+            }
+
+            this.students.Add(student);
+            return student;
+        }
+
+        public StudenT FindStudentByName(string firstName)
+        {
+            foreach (StudenT studentItem in this.students)
+            {
+                if (studentItem.FirstName == firstName)
+                {
+                    return studentItem;
                 }
             }
             return new StudenT();
         }
 
-        public bool Update(StudenT student)
+        public List<StudenT> FindStudentByLetter(char letter)
         {
-            for (int itaration = 0; itaration <= StudentsInfo.Length; itaration++)
+            List<StudenT> studentNew = new List<StudenT>();
+            foreach (StudenT studentItem in this.students)
             {
-                StudenT studentInfoLine = StudentsInfo[itaration];
-                if (studentInfoLine.Id == student.Id)
+                if (studentItem.FirstName.Contains(letter))
                 {
-                    studentInfoLine.FirstName = student.FirstName;
-                    studentInfoLine.LastName = student.LastName;
-                    StudentsInfo[itaration] = studentInfoLine;
-                    return true;
+                    studentNew.Add(studentItem);
                 }
             }
-            return false;
+            return studentNew;
         }
 
-        public bool Delete(int id)
+        public IStudent PrintNameAndEmail(int id, StudenT studentItem)
         {
-            for (int itaration = 0; itaration < StudentsInfo.Length; itaration++)
+            foreach (StudenT studentItem in this.students)
             {
-                if (StudentsInfo[itaration] is not null)
+                if (studentItem.Id == id)
                 {
-                    StudenT bookInfo = StudentsInfo[itaration];
-                    if (bookInfo.Id == id)
+                    var studentInfo = new IStudent()
                     {
-                        StudentsInfo[itaration] = new StudenT();
-                        return true;
-                    }
-
+                        FirstName = studentItem.FirstName,
+                        Email = studentItem.Email
+                    };
+                    return studentInfo;
                 }
-
             }
-            return false;
+            return new IStudent();
         }
 
-        List<StudenT> IStoreageBroker.GetAllClothes()
-        {
-            throw new NotImplementedException();
-        }
-
-        StudenT IStoreageBroker.GetClothes(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StudenT UpdateClothes(int id, StudenT clothes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StudenT AddClothes(StudenT clothes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<StudenT> AddRangeClothes(List<StudenT> clothes)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<StudenT> IStoreageBroker.SoldInformationClothes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteClothes(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PurchaseClothes(string productType)
+        IStudent IStoreageBroker.PrintNameAndEmail(int id)
         {
             throw new NotImplementedException();
         }
